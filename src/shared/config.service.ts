@@ -7,10 +7,20 @@ import { Order } from './orders.model';
 
 export class ConfigService {
 
+    private _dataSeries: Order[];
+
     constructor(private http: HttpClient) { }
 
     getAllOrderDetails(): Observable<Order[]> {
         return this.http.get<Order[]>('http://localhost:3000/api/orders');
     }
     
+    get dataSeries() {
+        return [...this._dataSeries];
+    }
+
+    set dataSeries(data: Order[]) {
+        this._dataSeries = [...data];
+    }
+
 }

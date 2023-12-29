@@ -1,15 +1,21 @@
 <header-star></header-star>
 <div class="container">
-    <div class="wrap-component">
-        <orders-value-time-series></orders-value-time-series>
+    <div *ngIf="isLoading">
+        LOADING...
     </div>
-    <div class="wrap-component">
-        <orders-no-time-series></orders-no-time-series>
-    </div>
-    <div class="wrap-component">
-        <bar-chart-order-type></bar-chart-order-type>
-    </div>
-    <div class="wrap-component">
-        <bar-chart-order-state></bar-chart-order-state>
-    </div>
+
+    <ng-container *ngIf="!isLoading">
+        <div class="wrap-component">
+            <orders-value-time-series></orders-value-time-series>
+        </div>
+        <div class="wrap-component">
+            <orders-no-time-series></orders-no-time-series>
+        </div>
+        <div class="wrap-component">
+            <bar-chart-order-type></bar-chart-order-type>
+        </div>
+        <div class="wrap-component">
+            <bar-chart-order-state></bar-chart-order-state>
+        </div>
+    </ng-container>
 </div>

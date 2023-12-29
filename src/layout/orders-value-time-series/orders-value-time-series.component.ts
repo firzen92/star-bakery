@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfigService } from 'src/shared/config.service';
 import { DisplayData, MONTHS, Order, TimeSelection } from 'src/shared/orders.model';
 import * as d3 from 'd3';
@@ -10,24 +10,19 @@ import * as d3 from 'd3';
 })
 
 
-export class OrdersValueTimeSeriesComponent implements OnInit {
+export class OrdersValueTimeSeriesComponent implements AfterViewInit {
 
     dataSeries: Order[];
     dataDisplaySeries: DisplayData[];
     selectedTime: TimeSelection = 'hour';
+    isLoading = false;
 
     @ViewChild('ordersValue') ordersValue: ElementRef;
-    constructor() { }
+    constructor(private configService: ConfigService) { }
 
-    ngOnInit() {
-        d3.json("http://localhost:3000/api/orders", (data: Order[]) => {
-            this.dataSeries = [...data];
-            const displayData = data.map(row => ({
-                time: new Date(row.lastUpdateTime),
-                value: row.totalValue
-            }))
-            this.createGraph(displayData);
-        })
+    ngAfterViewInit() {
+        this.dataSeries = [...this.configService.dataSeries];
+        this.clickHandler(this.selectedTime);
     }
 
     createGraph(data: DisplayData[]) {
@@ -111,9 +106,12 @@ export class OrdersValueTimeSeriesComponent implements OnInit {
             .attr("d", area as any);
 
         (<any>body).node().scrollBy(totalWidth, 0);
+
+        this.isLoading = false;
     }
 
     clickHandler(flag: TimeSelection) {
+        this.isLoading = true;
         // create an empty Map, the key will hold the time and value will be the summation of total value that we got
         let dataMap = new Map();
 
@@ -220,6 +218,5 @@ export class OrdersValueTimeSeriesComponent implements OnInit {
         }
 
         this.createGraph(this.dataDisplaySeries);
-
     }
 }

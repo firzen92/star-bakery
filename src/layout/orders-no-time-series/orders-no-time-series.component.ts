@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfigService } from 'src/shared/config.service';
 import * as d3 from 'd3';
 import { DisplayData, Order, TimeSelection } from 'src/shared/orders.model';
@@ -9,7 +9,7 @@ import { DisplayData, Order, TimeSelection } from 'src/shared/orders.model';
     styleUrls: ['./orders-no-time-series.component.scss']
 })
 
-export class OrdersNoTimeSeriesComponent implements OnInit {
+export class OrdersNoTimeSeriesComponent implements AfterViewInit {
     
     dataSeries: Order[];
     dataDisplaySeries: DisplayData[];
@@ -18,15 +18,9 @@ export class OrdersNoTimeSeriesComponent implements OnInit {
     @ViewChild('ordersNumber') ordersNumber: ElementRef;
     constructor(private configService: ConfigService) { }
 
-    ngOnInit(): void {
-        d3.json("http://localhost:3000/api/orders", (data: Order[]) => {
-            this.dataSeries = [...data];
-            const displayData = data.map(row => ({
-                time: new Date(row.lastUpdateTime),
-                value: row.totalValue
-            }))
-            this.clickHandler(this.selectedTime);
-        })
+    ngAfterViewInit(): void {
+        this.dataSeries = [...this.configService.dataSeries];
+        this.clickHandler(this.selectedTime);
     }
 
     private createGraph(data: DisplayData[]): void {

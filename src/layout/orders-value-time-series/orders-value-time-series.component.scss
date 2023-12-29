@@ -1,0 +1,13 @@
+.order-container {
+    position: relative;
+    .loading {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        font-size: 24px;
+        color: #1a1036;
+        font-style: italic;
+        font-weight: 100;
+        font-family: sans-serif;
+    }
+}
