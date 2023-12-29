@@ -8,6 +8,8 @@
 
 # Node
 /node_modules
+/backend/node_modules
+/backend/mockData.json
 npm-debug.log
 yarn-error.log
 
