@@ -3,8 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
-import { NgApexchartsModule } from 'ng-apexcharts';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { OrdersNoTimeSeriesComponent } from 'src/layout/orders-no-time-series/orders-no-time-series.component';
 import { OrdersValueTimeSeriesComponent } from 'src/layout/orders-value-time-series/orders-value-time-series.component';

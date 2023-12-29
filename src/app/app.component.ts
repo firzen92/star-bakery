@@ -1,21 +1,7 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
-
-import {
-  ChartComponent,
-  ApexAxisChartSeries,
-  ApexChart,
-  ApexXAxis,
-  ApexTitleSubtitle
-} from "ng-apexcharts";
+import { Component, OnInit } from "@angular/core";
 import { ConfigService } from "src/shared/config.service";
 import { Order } from "src/shared/orders.model";
 
-export type ChartOptions = {
-  series: ApexAxisChartSeries;
-  chart: ApexChart;
-  xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
-};
 
 @Component({
   selector: "app-root",
