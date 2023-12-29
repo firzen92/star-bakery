@@ -1,6 +1,7 @@
 # StarBakery
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 14.0.4.
+Node Version 14.16.0
 
 ## Development server
 Create database by navigating to backend folder and run `node generateMockData.js`.
