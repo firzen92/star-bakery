@@ -130,6 +130,8 @@ export class OrdersValueTimeSeriesComponent implements AfterViewInit {
                 return acc;
         }, new Date());
 
+        let now = new Date().getTime();
+
         switch (flag) {
             case 'day':
                 this.dataSeries.forEach(row => {
@@ -153,18 +155,21 @@ export class OrdersValueTimeSeriesComponent implements AfterViewInit {
                 }
                 break;
             case 'hour':
+                let now1 = new Date().getTime();
                 while (minimumDate < maximumDate) {
                     dataMap.set([minimumDate, new Date(minimumDate.getTime() + 6 * 6 * 1e5)], 0);
                     minimumDate = new Date(minimumDate.getTime() + 6 * 6 * 1e5);
                 }
-                this.dataSeries.forEach(row => {
-                    for (const key of dataMap.keys()) {
-                        if (key[0] <= new Date(row.lastUpdateTime) && new Date(row.lastUpdateTime) <= key[1]) {
-                            dataMap.set(key, +dataMap.get(key) + row.totalValue);
-                            break;
-                        }
+
+                let i = 0;
+                for (const key of dataMap.keys()) {
+                    while (i < this.dataSeries.length && key[0] <= new Date(this.dataSeries[i].lastUpdateTime) && new Date(this.dataSeries[i].lastUpdateTime) <= key[1]) {
+                        dataMap.set(key, +dataMap.get(key) + this.dataSeries[i].totalValue);
+                        i++;
                     }
-                });
+                }
+            
+
                 this.dataDisplaySeries = [];
                 for (const [key, value] of dataMap.entries()) {
                     this.dataDisplaySeries.push({
@@ -172,6 +177,7 @@ export class OrdersValueTimeSeriesComponent implements AfterViewInit {
                         value: value
                     });
                 }
+
                 break;
             case 'month':
                 this.dataSeries.forEach(row => {
@@ -216,7 +222,8 @@ export class OrdersValueTimeSeriesComponent implements AfterViewInit {
                 }
                 break;
         }
-
+        let later = new Date().getTime();
+        console.log((later - now)/1000);
         this.createGraph(this.dataDisplaySeries);
     }
 }
